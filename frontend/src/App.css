@@ -1,0 +1,110 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+  background: #f5f6fa;
+}
+
+.MuiDrawer-paper {
+  background: #222c36 !important;
+  color: #fff !important;
+}
+
+.sidebar-avatar {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+  background: #90caf9;
+}
+
+.sidebar-logo {
+  background: #fff;
+  color: #222c36;
+  margin-right: 8px;
+}
+
+.sidebar-selected {
+  background: #fff !important;
+  color: #222c36 !important;
+}
+
+.sidebar-exit {
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+.sidebar-exit:hover {
+  background: #e57373 !important;
+  border-color: #fff !important;
+}
+
+.dashboard-card {
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 1rem;
+}
+
+.dashboard-title {
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.dashboard-section-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.table-header {
+  background: #e3f2fd;
+  font-weight: 600;
+}
+
+.table-row {
+  background: #e3f2fd;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+.form-button {
+  border-radius: 8px;
+  font-weight: 600;
+}
