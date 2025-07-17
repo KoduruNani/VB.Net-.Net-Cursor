@@ -1,0 +1,7 @@
+addReviewers: true
+addAssignees: false
+useCodeOwners: true
+reviewers:
+  - kodurunani
+  - reviewer2  # Replace with actual GitHub username
+numberOfReviewers: 1

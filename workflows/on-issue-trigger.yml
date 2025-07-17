@@ -1,0 +1,35 @@
+name: Trigger PR Summary from Issue
+on:
+  issues:
+    types: [opened]
+jobs:
+  handle-pr-summary:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.body, 'Review PR #')
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Extract PR number from issue body
+        id: extract
+        run: |
+          echo "PR_NUMBER=$(echo '${{ github.event.issue.body }}' | grep -oP '#\K\d+')" >> $GITHUB_ENV
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Set up GitHub CLI
+        uses: cli/cli@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get PR Diff
+        run: |
+          echo "Fetching diff for PR #$PR_NUMBER"
+          gh pr diff $PR_NUMBER > pr_diff.txt
+      - name: Generate Summary with Copilot
+        run: |
+          bash scripts/copilot-summary.sh $PR_NUMBER
+      - name: Comment Summary to PR
+        run: |
+          gh pr comment $PR_NUMBER --body "$(cat pr_summary.txt)"
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          gh issue comment ${{ github.event.issue.number }} --body "Workflow failed. Check Actions tab."

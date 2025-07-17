@@ -1,0 +1,33 @@
+name: Copilot Code Review Simulation
+on:
+  pull_request:
+    types: [opened, synchronize]
+jobs:
+  run-quality-checks:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          dotnet restore
+      - name: Run Code Analysis
+        run: |
+          dotnet build --no-incremental || echo "Build issues detected" > analysis_output.txt
+          dotnet format --verify-no-changes || echo "Code style issues detected" >> analysis_output.txt
+      - name: Simulated Copilot Review Comment
+        if: success() || failure()
+        run: |
+          echo "Copilot Review for PR #${{ github.event.pull_request.number }}:" > pr_review.txt
+          if [ -f analysis_output.txt ]; then
+            cat analysis_output.txt >> pr_review.txt
+          else
+            echo "Code looks clean. Well done! ✅" >> pr_review.txt
+          fi
+          gh pr comment ${{ github.event.pull_request.number }} --body "$(cat pr_review.txt)"
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body "Code review workflow failed. Check Actions tab."
